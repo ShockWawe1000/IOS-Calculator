@@ -7,7 +7,7 @@ body{
    
     height: 100vh ;
     display: flex;
-   
+   flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     background-color: black;
@@ -19,6 +19,7 @@ body{
     background-repeat: no-repeat;
     background-size: contain;
     display: flex;
+    flex-shrink: 0;
     justify-content: center;
     align-items: center;
 }
