@@ -1,26 +1,3 @@
-function add(a,b)
-{
-    return a+b;
-}
-function substract(a,b)
-{
-    return a-b;
-}
-function mult(a,b)
-{
-    return a*b;
-}
-function divide(a,b)
-{
-    return a/b;
-}
-
-function clear()
-{
-    return 0;
-}
-
-
 const container = document.querySelector('.numberDisplay');
 const value = document.querySelector('.value');
 const button = document.querySelectorAll("button");
@@ -33,6 +10,9 @@ previousNumber=0;
 printValue=result;
 modulusFlag=false;
 selectedOperator = "none";
+operatorSelectedFlag = false;
+canEqualFlag = false;
+let resultShown = false;
 
 const resizeTextToFit = () => {
     const containerWidth = container.offsetWidth;
@@ -48,95 +28,135 @@ const resizeTextToFit = () => {
         
     };
 
-function checkZero(a)
+function checkZero(a)  
 {
         
-    if (Number(a[0])==0  &&  Number(a[1])>0)
+    if (Number(a[0])==0  &&  Number(a[1])!=0)
     {
+        if (a.substring(1,a.length) == "")
+        return "0";
         return a.substring(1,a.length);
     }
     else if (a[0]=="-" && Number(a[1])==0  &&  Number(a[2])>0)
     {
+        if (a.substring(0,1) + a.substring(2,a.length) == "")
+        return "0";
         return a.substring(0,1) + a.substring(2,a.length);
     }
     return a;
 }
 
 
-function drawDots(a)
+function drawDots(a) //to be fixed
 {   
     if (a % 1 == 0)
     {
+        let offset = 0;
         if (a[0]!="-")
         {
-            if (a[5]!=undefined && a[6]!=undefined)
-            {
-                return a.slice(0,3)+"."+a.slice(3,6)+"."+a.slice(6);
-            }
-            else if (a[2]!=undefined && a[3]!=undefined)
-            {
-                return a.slice(0,3)+"."+a.slice(3);
-            }
-        
+            offset=0;
         }
- if (a[0]=="-")
-    {
+        else if (a[0]=="-")
         {
-            if (a[6]!=undefined && a[7]!=undefined)
-            {
-                return a.slice(0,4)+"."+a.slice(4,7)+"."+a.slice(7);
-            }
-            else if (a[3]!=undefined && a[4]!=undefined)
-            {
-                return a.slice(0,4)+"."+a.slice(4);
-            }
-        
+            offset=1;
         }
+        switch (a.length)
+        {
+                   case 4+offset:
+                       return a.slice(0,1)+"."+a.slice(1);
+                       break;
+                   case 5+offset:
+                       return a.slice(0,2)+"."+a.slice(2);
+                       break;
+                   case 6+offset:
+                       return a.slice(0,3)+"."+a.slice(3);
+                       break;
+                   case 7+offset:
+                       return a.slice(0,1)+"."+a.slice(1,4)+"."+a.slice(4);
+                       break;
+                   case 8+offset:
+                       return a.slice(0,2)+"."+a.slice(2,5)+"."+a.slice(5)
+                       break;
+                   case 9+offset:
+                       return a.slice(0,3)+"."+a.slice(3,6)+"."+a.slice(6);
+                       break;
+       }
+      
+     
+               
     }
-    }
+     
+    
+    
    
  return a;
 }
 
-function updateEqual(a)
+function checkDoubleZeros(number)
 {
-
+    if (result[0].toString() =="0" && number.toString() == "0")
+    return true;
+    else
+    return false;
 }
+
+
 function updateResult(number,action)
 {
-    if (modulusFlag==true && number!="print")
+     if (number=="clear")
+   {
+    result = "0"
+    value.style.fontSize = "60px";
+   }
+     if (operatorSelectedFlag == true)
+    {
+            result = "0";
+            operatorSelectedFlag=false;
+            canEqualFlag=true;      
+    }
+     if (modulusFlag==true && number!="print")
     {
         modulusFlag=false;
         result="0";
         previousNumber=Number(result)
         console.log(previousNumber)
     }
-    if(result.length<9 &&  !isNaN(number) && !isNaN(parseFloat(number)))
+     if(result.length<9 &&  !isNaN(number) && !isNaN(parseFloat(number)))
     {
+        if (resultShown==true)
+        {
+            result = "0"
+            resultShown = false;
+        }
         result.length<1
         {
             value.style.fontSize = "60px";
         }
-        result = result.toString()+number;
+        if (checkDoubleZeros(number)==false)
+        {
+            result = result.toString()+number;
+        }
+       
         result = checkZero(result)
     }
-   if (number=="clear")
-   {
-    result = "0"
-    value.style.fontSize = "60px";
-   }
+   
   
    
    value.textContent=drawDots(result); 
    resizeTextToFit();
    
 }
+
+
 function doAction(a)
 {
 
     if(a=="AC")
     {
+        canEqualFlag=false;
         updateResult("clear")
+        selection("clear")
+        
     }
     
    else if (a=="neg")
@@ -159,12 +179,14 @@ function doAction(a)
         modulusFlag=true;
    }
 }
+
+
 function selection(button)
 {
     selectedOperator=button
     previousNumber=Number(result)
     console.log(previousNumber)
-    updateResult("clear")
+    operatorSelectedFlag=true;
 
     if (button=="divide")
     {
@@ -200,6 +222,7 @@ function selection(button)
         btn_mult.classList.remove("selected")
         btn_sub.classList.remove("selected")
         btn_add.classList.remove("selected")
+        selectedOperator="none"
     }
 }
 
@@ -208,7 +231,7 @@ function selectOperator(type, element)
     if (type=="divide")
     {
         selection(type)
-        
+
     }
     else if (type=="multiply")
     {
@@ -223,38 +246,53 @@ function selectOperator(type, element)
         selection(type)
     }
 
+  
+    
+
    
 }
 
 function equal()
 {
+   
+
     if (selectedOperator=="divide")
     {
-        
-        result = previousNumber/Number(result)
-        result.toString()
+        result = previousNumber/Number(result) 
+        result = result.toString()
+        operatorSelectedFlag=true;
         updateResult(result)
-        
+        resultShown = true;
     }
     else if (selectedOperator=="multiply")
     {
-        result = previousNumber*Number(result)
-        result.toString()
+        result = previousNumber*Number(result)   
+        result = result.toString()
+        operatorSelectedFlag=true;
         updateResult(result)
+        resultShown = true;
     }
     else if (selectedOperator=="substract")
     {
-        result = previousNumber-Number(result)
-        result.toString()
+        result = previousNumber-Number(result)   
+        result = result.toString()
+        operatorSelectedFlag=true;
         updateResult(result)
+         resultShown = true;
     }
     else if (selectedOperator=="add")
     {
-        result = previousNumber+Number(result)
-        result.toString()
-        updateResult(result)
+            result = previousNumber+Number(result)  
+            result = result.toString()
+            operatorSelectedFlag=true;
+            updateResult(result)
+            resultShown = true;
     }
+
+    
 }
+
+
 function checkAction(element)
 {
     if (element.classList.contains("number"))
