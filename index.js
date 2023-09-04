@@ -13,6 +13,7 @@ selectedOperator = "none";
 operatorSelectedFlag = false;
 canEqualFlag = false;
 let resultShown = false;
+let decimalFlag = false;
 
 const resizeTextToFit = () => {
     const containerWidth = container.offsetWidth;
@@ -31,7 +32,7 @@ const resizeTextToFit = () => {
 function checkZero(a)  
 {
         
-    if (Number(a[0])==0  &&  Number(a[1])!=0)
+    if (Number(a[0])==0  &&  Number(a[1])!=0 && a[1]!=".")
     {
         if (a.substring(1,a.length) == "")
         return "0";
@@ -49,7 +50,19 @@ function checkZero(a)
 
 function drawDots(a) //to be fixed
 {   
-    if (a % 1 == 0)
+    let length = a.length;
+    if (decimalFlag=true)
+    {
+        for (i=0; i<a.length;i++)
+        {
+            if (a[i]==".")
+            {
+                length = i;
+            }
+           
+        }
+    }
+
     {
         let offset = 0;
         if (a[0]!="-")
@@ -60,25 +73,25 @@ function drawDots(a) //to be fixed
         {
             offset=1;
         }
-        switch (a.length)
+        switch (length)
         {
                    case 4+offset:
-                       return a.slice(0,1)+"."+a.slice(1);
+                       return a.slice(0,1)+","+a.slice(1);
                        break;
                    case 5+offset:
-                       return a.slice(0,2)+"."+a.slice(2);
+                       return a.slice(0,2)+","+a.slice(2);
                        break;
                    case 6+offset:
-                       return a.slice(0,3)+"."+a.slice(3);
+                       return a.slice(0,3)+","+a.slice(3);
                        break;
                    case 7+offset:
-                       return a.slice(0,1)+"."+a.slice(1,4)+"."+a.slice(4);
+                       return a.slice(0,1)+","+a.slice(1,4)+","+a.slice(4);
                        break;
                    case 8+offset:
-                       return a.slice(0,2)+"."+a.slice(2,5)+"."+a.slice(5)
+                       return a.slice(0,2)+","+a.slice(2,5)+","+a.slice(5)
                        break;
                    case 9+offset:
-                       return a.slice(0,3)+"."+a.slice(3,6)+"."+a.slice(6);
+                       return a.slice(0,3)+","+a.slice(3,6)+","+a.slice(6);
                        break;
        }
       
@@ -103,6 +116,10 @@ function checkDoubleZeros(number)
 
 function updateResult(number,action)
 {
+    if(number=="decimal")
+    {
+        result=result+".";
+    }
      if (number=="clear")
    {
     result = "0"
@@ -288,7 +305,7 @@ function equal()
             updateResult(result)
             resultShown = true;
     }
-
+    decimalFlag=false;
     
 }
 
@@ -312,6 +329,13 @@ function checkAction(element)
     {
         equal()
     }
+    else if (element.getAttribute("data-type")=="decimal")
+    {
+        decimalFlag=true;
+        updateResult("decimal")
+    }
+        
+    
 
 } 
 
