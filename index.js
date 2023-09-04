@@ -51,7 +51,7 @@ function checkZero(a)
 function drawDots(a) //to be fixed
 {   
     let length = a.length;
-    if (decimalFlag=true)
+    
     {
         for (i=0; i<a.length;i++)
         {
@@ -119,17 +119,20 @@ function updateResult(number,action)
     if(number=="decimal")
     {
         result=result+".";
+      
     }
      if (number=="clear")
    {
     result = "0"
     value.style.fontSize = "60px";
+    decimalFlag=false;
    }
      if (operatorSelectedFlag == true)
     {
             result = "0";
             operatorSelectedFlag=false;
             canEqualFlag=true;      
+         decimalFlag=false;
     }
      if (modulusFlag==true && number!="print")
     {
@@ -278,6 +281,7 @@ function equal()
         result = previousNumber/Number(result) 
         result = result.toString()
         operatorSelectedFlag=true;
+        decimalFlag=false;
         updateResult(result)
         resultShown = true;
     }
@@ -286,6 +290,7 @@ function equal()
         result = previousNumber*Number(result)   
         result = result.toString()
         operatorSelectedFlag=true;
+        decimalFlag=false;
         updateResult(result)
         resultShown = true;
     }
@@ -294,6 +299,7 @@ function equal()
         result = previousNumber-Number(result)   
         result = result.toString()
         operatorSelectedFlag=true;
+        decimalFlag=false;
         updateResult(result)
          resultShown = true;
     }
@@ -302,10 +308,11 @@ function equal()
             result = previousNumber+Number(result)  
             result = result.toString()
             operatorSelectedFlag=true;
+            decimalFlag=false;
             updateResult(result)
             resultShown = true;
     }
-    decimalFlag=false;
+   
     
 }
 
@@ -331,8 +338,12 @@ function checkAction(element)
     }
     else if (element.getAttribute("data-type")=="decimal")
     {
-        decimalFlag=true;
-        updateResult("decimal")
+        if (decimalFlag==false)
+        {
+            decimalFlag=true;
+            updateResult("decimal")
+        }
+       
     }
         
     
