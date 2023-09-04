@@ -1,0 +1,152 @@
+
+body{
+    margin: 0px;
+    padding: 0px;
+}
+.window{
+   
+    height: 100vh ;
+    display: flex;
+   
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+.phone{
+    height: 550px;
+    width: 360px;
+    background-image: url("phone.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.row{
+    display: flex;
+    gap: 7px;
+}
+.buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+.button{
+    border:0px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: #313131;
+    color: #f6f6f6;
+    font-family:  Helvetica, sans-serif;
+    font-weight: 100;
+    font-size: 26px;
+
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+
+   
+       
+}
+
+.button:hover {
+    background-color: #535353;
+
+   }
+   
+button:active {
+     box-shadow: 0 0 2px darkslategray;
+     transform: translateY(2px);
+   
+}
+
+   
+.operator , .operatorEqual{
+    background-color: #f69906;
+}
+
+.operator:hover {
+    background-color: #f4b147;
+
+}
+.operatorEqual:hover {
+    background-color: #f4b147;
+
+}
+
+.settings.button{
+    background-color:#878787;
+    font-size: 23px;
+}
+.settings:hover {
+    background-color: #b3b3b3;
+
+}
+.zero.button{
+    padding-right: 87px;
+    padding-left: 20px;
+    border: 0;
+    border-radius: 30px;
+}
+
+.numberDisplay {
+   
+    text-align: end;
+    height: 140px;
+    padding-bottom: 10px;
+    width: 222px;
+    
+    display: flex; 
+    justify-content: flex-end; 
+    align-items: flex-end; 
+}
+
+.value {
+    white-space: nowrap;
+   margin: 0px;
+    font-family: Helvetica, sans-serif;
+    font-weight: lighter;
+    font-size: 60px;
+    font-weight: 100;
+    color: #f6f6f6;
+}
+.divider{
+    border:1.5px white solid;
+    border-radius: 30px;
+    height: 0px;
+    padding: 0px 40px;
+    width:0px;
+    margin:30px auto 0px auto;
+
+  
+}
+
+.button.selected{
+    background-color: #f6f6f6;
+    color:#f69906;
+}
+.footer{
+    color : #f6f6f6;
+    font-family: Helvetica, sans-serif;
+    font-weight: lighter;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   gap: 30px;
+
+}
+.logo{
+    width: 140px;
+}
+
+a{
+    color:#b3b3b3
+}
+a:visited {
+    color: #b3b3b3;
+}
+a:hover {
+    color: #f69906;
+  }
